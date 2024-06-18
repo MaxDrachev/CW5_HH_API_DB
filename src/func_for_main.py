@@ -1,10 +1,13 @@
 from typing import Any
-import psycopg2
-
 import requests
 
 
-def create_tables(db_conn):
+def create_tables(db_conn) -> None:
+    """
+    данная функция создает таблички в уже созданной базе данных на локальном компьютере
+    :param db_conn:
+    :return:
+    """
     with db_conn.cursor() as cursor:
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS employers (
@@ -27,33 +30,39 @@ def create_tables(db_conn):
         db_conn.commit()
 
 
-def truncate_table(db_conn):
+def truncate_table(db_conn) -> None:
+    """
+    данная функция создает таблички в уже созданной базе данных на локальном компьютере
+    :param db_conn:
+    :return:
+    """
     with db_conn.cursor() as cursor:
         cursor.execute(
             """
-            TRUNCATE TABLE  employers RESTART IDENTITY CASCADE;
+            TRUNCATE TABLE employers RESTART IDENTITY CASCADE;
             """)
+
         cursor.execute(
             """
-            TRUNCATE TABLE  vacancies RESTART IDENTITY;
-            """
-        )
+            TRUNCATE TABLE vacancies RESTART IDENTITY;
+            """)
+
         db_conn.commit()
 
 
-def get_employees_id_by_input_user() -> Any:
+def get_employees_id_by_input_user() -> list[str]:
     """
     Получает список работодателей для поиска их вакансий
     """
     employees = []
-    while len(employees) < 3:
+    while len(employees) < 10:
         param_text = input('Введите желаемых работодателей:  ')
         employees.append(param_text)
 
     return employees
 
 
-def get_id_employees(employees):
+def get_id_employees(employees: list[str]) -> list[str]:
     headers = {'User-Agent': 'HH-User-Agent'}
     params = {'text': '', 'sort_by': 'by_vacancies_open'}
     url = 'https://api.hh.ru/employers'
@@ -68,7 +77,7 @@ def get_id_employees(employees):
     return employees_id
 
 
-def add_vacancies(db_conn, vacancies_list):
+def add_vacancies(db_conn, vacancies_list: list[dict]):
     with db_conn.cursor() as cursor:
         for vac in vacancies_list:
             cursor.execute(
@@ -87,7 +96,7 @@ def add_vacancies(db_conn, vacancies_list):
             db_conn.commit()
 
 
-def add_employers(db_conn, employers_list):
+def add_employers(db_conn, employers_list: list[dict]):
     with db_conn.cursor() as cursor:
         for employer in employers_list:
             cursor.execute(
@@ -102,13 +111,3 @@ def add_employers(db_conn, employers_list):
                 )
             )
             db_conn.commit()
-
-
-if __name__ == '__main__':
-    # empl_1 = ['9498112', '4181', '3388']    # ,
-    # e_id = HHApi()
-    # vac = e_id.get_vacancies(empl_1)
-    # print(vac)
-    # print(len(vac))
-    emp = get_employees_id_by_input_user()
-    print(get_id_employees(emp))
