@@ -27,6 +27,20 @@ def create_tables(db_conn):
         db_conn.commit()
 
 
+def truncate_table(db_conn):
+    with db_conn.cursor() as cursor:
+        cursor.execute(
+            """
+            TRUNCATE TABLE  employers RESTART IDENTITY CASCADE;
+            """)
+        cursor.execute(
+            """
+            TRUNCATE TABLE  vacancies RESTART IDENTITY;
+            """
+        )
+        db_conn.commit()
+
+
 def get_employees_id_by_input_user() -> Any:
     """
     Получает список работодателей для поиска их вакансий

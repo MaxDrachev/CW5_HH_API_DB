@@ -1,7 +1,11 @@
+import os
 import requests
 from abc import ABC, abstractmethod
+
+from config import config
 from src.classes.DB_conn import DBConnection
-from src.func_for_main import get_employees_id_by_input_user, get_id_employees, add_vacancies, add_employers, create_tables
+from src.func_for_main import (get_employees_id_by_input_user, get_id_employees, add_vacancies,
+                               add_employers, create_tables)
 
 
 class Parser(ABC):
@@ -67,20 +71,23 @@ class HHApi(Parser):
 
 if __name__ == '__main__':
     hh_1 = HHApi()
-    db_conn = DBConnection(
-        name='CW5_Drachev',
-        user='postgres',
-        port=5432,
-        host='localhost',
-        password='173O613cc,'
-    ).conn
-    create_tables(db_conn)
-    list_eml = get_employees_id_by_input_user()
-    eml_id = get_id_employees(list_eml)
-    emp_1 = hh_1.get_employers_data(eml_id)
-    add_employers(db_conn, emp_1)
-    vac = hh_1.get_vacancies(eml_id)
-    add_vacancies(db_conn, vac)
+    # db_conn = DBConnection(
+    #     name='CW5_Drachev',
+    #     user='postgres',
+    #     port=5432,
+    #     host='localhost',
+    #     password='173O613cc,'
+    # ).conn
+    db_param = config()
+    db_conn = DBConnection(**db_param)
+    # create_tables(db_conn)
+    # list_eml = get_employees_id_by_input_user()
+    # eml_id = get_id_employees(list_eml)
+    # emp_1 = hh_1.get_employers_data(eml_id)
+    # add_employers(db_conn, emp_1)
+    # vac = hh_1.get_vacancies(eml_id)
+    # add_vacancies(db_conn, vac)
+    print(db_param)
 
     #for i in emp_1:
         #print(i)
