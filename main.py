@@ -3,14 +3,14 @@ from src.classes.DB_conn import DBConnection
 from src.classes.class_DBM import DBManager
 from src.classes.class_APIhh import HHApi
 from src.func_for_main import get_employees_id_by_input_user, get_id_employees, create_tables, add_employers, \
-    add_vacancies, truncate_table
+    add_vacancies, drop_table
 
 
 def main():
     hh_1 = HHApi()
     db_param = config()
     db_conn = DBConnection(**db_param).conn
-    truncate_table(db_conn)
+    drop_table(db_conn)
     create_tables(db_conn)
     list_eml = get_employees_id_by_input_user()
     eml_id = get_id_employees(list_eml)
