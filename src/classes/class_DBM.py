@@ -97,6 +97,6 @@ class DBManager(AbstractDBM):
         :return:
         """
         with self.conn.cursor() as cursor:
-            cursor.execute(f"""SELECT * FROM vacancies WHERE name LIKE ('%{keyword}%');""")
+            cursor.execute(f"""SELECT * FROM vacancies WHERE name LIKE ('{keyword}%');""")
 
             return cursor.fetchall()

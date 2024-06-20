@@ -30,7 +30,7 @@ def create_tables(db_conn) -> None:
         db_conn.commit()
 
 
-def truncate_table(db_conn) -> None:
+def drop_table(db_conn) -> None:
     """
     данная функция создает таблички в уже созданной базе данных на локальном компьютере
     :param db_conn:
@@ -39,13 +39,13 @@ def truncate_table(db_conn) -> None:
     with db_conn.cursor() as cursor:
         cursor.execute(
             """
-            TRUNCATE TABLE employers RESTART IDENTITY CASCADE;
+            DROP TABLE IF EXISTS employers, vacancies CASCADE;
             """)
 
-        cursor.execute(
-            """
-            TRUNCATE TABLE vacancies RESTART IDENTITY;
-            """)
+        # cursor.execute(
+        #     """
+        #     TRUNCATE TABLE vacancies RESTART IDENTITY;
+        #     """)
 
         db_conn.commit()
 
