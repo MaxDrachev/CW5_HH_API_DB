@@ -16,8 +16,8 @@ def main():
     eml_id = get_id_employees(list_eml)
     emp_1 = hh_1.get_employers_data(eml_id)
     add_employers(db_conn, emp_1)
-    vac = hh_1.get_vacancies(eml_id)
-    add_vacancies(db_conn, vac)
+    vacancie = hh_1.get_vacancies(eml_id)
+    add_vacancies(db_conn, vacancie)
     dbm_1 = DBManager(db_conn)
 
     print(dbm_1.get_avg_salary())
