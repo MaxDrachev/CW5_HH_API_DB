@@ -42,11 +42,6 @@ def drop_table(db_conn) -> None:
             DROP TABLE IF EXISTS employers, vacancies CASCADE;
             """)
 
-        # cursor.execute(
-        #     """
-        #     TRUNCATE TABLE vacancies RESTART IDENTITY;
-        #     """)
-
         db_conn.commit()
 
 
